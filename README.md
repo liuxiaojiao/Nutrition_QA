@@ -53,10 +53,10 @@ An example of output of answer extraction is:
   "passage": "As I hinted above, good nutrition is about more than weight loss or gain. ......
               performance at the elite, world-class level; it all depends on your client\u2019s goals and activities.", 
   "answers": [
-              {"score": -1.7981932736504511, "text": "energy balance", "start": 128, "end": 142}, 
-              {"score": -2.287053819110478, "text": "more than weight loss or gain", "start": 43, "end": 72},
-              {"score": -2.29739901923343, "text": "body composition", "start": 870, "end": 886}, 
-              {"score": -2.3490095799609128, "text": "good nutrition", "start": 19, "end": 33} 
+              {"score": -1.798, "text": "energy balance", "start": 128, "end": 142}, 
+              {"score": -2.287, "text": "more than weight loss or gain", "start": 43, "end": 72},
+              {"score": -2.297, "text": "body composition", "start": 870, "end": 886}, 
+              {"score": -2.349, "text": "good nutrition", "start": 19, "end": 33} 
               ]          
   "metadata": {"title": "As I hinted above, good nutrition is about more th", 
                "ps_score": "1"}}
