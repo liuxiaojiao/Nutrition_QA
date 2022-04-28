@@ -90,10 +90,10 @@ The output is a jsonl file with the following format
 An example of output of question generation is:
 ```
 {
-  "passage_id": "ID for passage", 
-  "answer": "Benedict", 
-  "question": "which pope has the middle name gregory",
-  "metadata": {"answer_start": 617, "answer_end": 625, "ae_score": "score for answer", "qg_score": "currently not implemented, but score for question can go here"}
+  "passage_id": 32, 
+  "answer": "good nutrition", 
+  "question": "what is more important than weight loss or gain", 
+  "metadata": {"answer_start": 19, "answer_end": 33, "ae_score": -2.35, "qg_score": null}
 }
 ```
 
