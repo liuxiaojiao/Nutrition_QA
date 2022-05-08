@@ -74,7 +74,7 @@ Based on the above experiments, ***implement PAQ for data augmentation and filte
 - Improve the data augmentation and the filtering metrics to improve augmented QA quality, as this is important for NLP downstream few-shot learning. 
 - Expand the context topics to areas of exercise, nutrition and dietetics, chronic disease management, psychological and physical health management.
 - Explore fitness nutrition textbook to generate more good quality of ground truth QA pairs for training.
-- Implement on RAG architecture for open-domain QA.
+- Implement on [RAG] (https://arxiv.org/abs/2106.11517) architecture for open-domain QA.
 
 
 ## PAQ for Question Generation 
