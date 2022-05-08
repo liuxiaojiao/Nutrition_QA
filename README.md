@@ -2,16 +2,50 @@
 
 The goal of this project is to generate a Question-Answering (QA) system in Fitness Nutrition.
 
-As a certified Specialist of Fitness Nutrition and a Personal Trainer at ISSA (International Sports Sciences Association), I was trained with two well-designed courses in the aspects of nutrition and training. The context of this project was scraped from Fitness Nutrition book downloads of the certification program: ISSA-Fitness-Nutrition-Certification-Main-Course-Textbook and ISSA-Fitness-Nutrition-Certification-Workbook. After finishing this certificate course, I answered all of self-learnt questions in ISSA-Fitness-Nutrition-Certification-Workbook with guidances from ISSA experts.
+As a certified Specialist of Fitness Nutrition and a Personal Trainer at ISSA (International Sports Sciences Association), I was trained with two well-designed courses in the aspects of nutrition and exercise. The context of this project was scraped from the Fitness Nutrition textbook of the certification program: ISSA-Fitness-Nutrition-Certification-Main-Course-Textbook. 
 
-Unfortunately, according to ISSA IP policy, the contents in both textbook and workbook are not released to the public.
+Unfortunately, according to ISSA IP policy, the contents in any textbook are not released to the public. If you request a sample data, you may contact representatives on [ISSA website](https://www.issaonline.com/).
 
-Due to limited question/answer pairs to build a Fitness Nutrition QA system, I implementate Question Generation Augmentation by using part of the QG pipeline from the "Probably Asked Questions" (PAQ) research from Facebook AI Research (https://github.com/facebookresearch/PAQ).   
+## Highlights of Research Methodology
+This Nutrition Question-Answering System takes advantages of pretrained transformers which show State-of-the-Art performance in NLP tasks recently. The research starts from training a baseline model using distilbert-base-uncased, and then fine-tunes on SQuAD pretrained distilbert model. 
 
-Two models are borrowed from PAQ research to generate our question generation augmentation pipeline: 1. Answer Extractor, 2. Question Generator.
+I generated 112 QA pairs based on the ISSA Fitness Nutrition textboook. Due to limited question/answer pairs to build a Fitness Nutrition QA system, I implementate Question Generation Augmentation by using part of the QG pipeline from the "Probably Asked Questions" (PAQ) research from [Facebook AI Research](https://github.com/facebookresearch/PAQ). Three models are borrowed from PAQ research to generate our question generation augmentation pipeline: 1. Answer Extractor, 2. Question Generator, and 3. Filtering Generated QA-pairs. Both groudtruth and generated QA paris are used in the training. 
+
+Besides the filtering module in PQA which filters the generated questions for answer consistency, I also use distilbert-base-uncased-distilled-squad (distil bert uncased model pretrained with SQuAD data) from [Huggingface model page](https://huggingface.co/distilbert-base-cased-distilled-squad) to predict the nutrition answers, treat as golden answers and compare with the generated answers to filter out high quality QA pairs for training. 
+
+## Summary of Model Performance
+  | Dataset for Training | N size | Model Type | Performance (F1 & EM)
+  | --------------- | --------------- | --------------- | --------------- 
+  | Ground truth + Generated QA (unfiltered) | 12,097 generated QA & 112 ground truth QA pairs | baseline | F1 = 53.18, EM = 33.55 
+  | Ground truth + Generated QA (filtered by Consistent=True) | 4,441 generated QA & 112 ground truth QA pairs | baseline | F1 = 64.86, EM = 52.01
+  | Ground truth + Generated QA (unfiltered) | 12,097 generated QA & 112 ground truth QA pairs | fine-tune with SQuAD 1.1 | F1 = 57.55, EM = 38.57
+  | Ground truth + Generated QA (filtered by Consistent=True) | 4,441 generated QA & 112 ground truth QA pairs | fine-tune with SQuAD 1.1 | F1 = 81.13, EM = 66.70
+Note: Consistent=True is filtered by PAQ module 3. Filtering Generated QA-pairs. 
+  
+Fine-tuning on fitness nutrition data with SQuAD pretrained model/weights significantly improves the model performance. Therefore, I use distilbert-base-uncased-distilled-squad pretrained results to compute the F1 score against all PAQ generated questions as the filtering metric. The F1 filtering thresholds are 1.0, 0.8, 0.6, 0.4. Ground truth pairs are considered as F1 = 1.0.
+
+  | Dataset for Training | N size | Performance (F1 & EM)
+  | --------------- | --------------- | --------------- | --------------- 
+  | **Ground truth + Generated QA (filtered by F1=1.0)** | 4,127 generated QA & 112 ground truth QA pairs | **F1 = 71.40, EM = 61.67** 
+  | **Ground truth + Generated QA (filtered by F1=0.8)** | 4,943 generated QA & 112 ground truth QA pairs | **F1 = 71.16, EM = 54.83**
+  | Ground truth + Generated QA (filtered by F1=0.6) | 6,256 generated QA & 112 ground truth QA pairs | F1 = 69.55, EM = 49.61
+  | Ground truth + Generated QA (filtered by F1=0.4) | 7,903 generated QA & 112 ground truth QA pairs | F1 = 63.91, EM = 41.75
+
+Based on the above experiments, ***implement PAQ for data augmentation and filter good quality QA paris based on pretrained SQaUD transformers are effective in improving model performance in the few-shot downstream NLP tasks.*** Although F1 threshold is one of the hyperparameters to tune, F1 threshold = 0.8 may garantee satisfacotry quality of question generation with relatively good amount of QA pairs.
+
+## Future Research
+- Improve the data augmentation and the filtering metrics to improve augmented QA quality, as this is important for NLP downstream few-shot learning. 
+- Expand the context topics to areas of exercise, nutrition and dietetics, chronic disease management, psychological and physical health management.
+- Explore fitness nutrition textbook to generate more good quality of ground truth QA pairs for training.
 
 
-## Answer Extraction using PAQ
+
+## PAQ for Question Generation 
+################################ TL;DR ################################
+
+Refer to [PAQ](https://github.com/facebookresearch/PAQ) from facebook research. Brief implementation process below.
+
+### 1. Answer Extractor
 The learnt answer span extractor model, answer_extractor_nq_base (Learnt Answer Span Extractor, BERT-base, NQ-trained), is used to perform the answer extraction on passages, which is a BERT-base architecture that has been fine-tuned on NQ dataset.
 
 Below is an example to extract answers from passages, using the learnt extractor:
@@ -37,7 +71,7 @@ The input of Answer Extraction, my_passages.jsonl, was cleaned and saved as a js
 }
 ```
 
-The output of answer extraction is also a jsonl file with the following format which is accepted by the Question Generation component
+The output of answer extraction is also a jsonl file with the following format which is accepted by the Question Generation component:
 ```
 {
   "passage_id": "ID for passage", 
@@ -62,7 +96,7 @@ An example of output of answer extraction is:
                "ps_score": "1"}}
  ```
  
-## Question Generation using PAQ
+### 2. Question Generator
 The BART-base model trained on NQ and Multitask datasets is used to perform the question generation based on ansers extracted from last step. 
 
 Below is an example to generate questions from passages with extracted answers, using the multitask generator:
@@ -78,7 +112,7 @@ python -m paq.generation.question_generator.generate_questions \
     --path_to_config generator_configs/question_generator_configs/question_generation_config.json \
     --verbose
 ```
-The output is a jsonl file with the following format
+The output is a jsonl file with the following format:
 ```
 {
   "passage_id": "ID for passage", 
@@ -96,8 +130,23 @@ An example of output of question generation is:
   "metadata": {"answer_start": 19, "answer_end": 33, "ae_score": -2.35, "qg_score": null}
 }
 ```
+### 3. Filtering Generated QA-Pairs
+Filter the generated questions for answer consistency based on "DPR Passage retriever and faiss index" (BERT-base) and "FID-base reader" (t5-base).
 
-
-With subjectively personal generated QA pairs and augmented QA pairs by PAQ, the project uses DistilBERT-based Transformer as baseline and fine-tune on downstream task-specific data (fitness nutrition QA pairs). The current project uses all QA pairs generated by PAQ pipeline. In future's research, I'll use the filtering component of PAQ to improve augmented QA quality.  
+Below is an example of filtering generated questions with local filtering (faster one, global filtering takes longer but with better performance):
+```
+python -m paq.generation.filtering.filter_questions \
+    --generated_questions_to_filter my_generated_questions.jsonl \
+    --output_path my_locally_filtered_questions.jsonl \
+    --path_to_config generator_configs/filterer_configs/local_filtering_config.json \
+    --verbose
+```    
+The output is a jsonl file with the following format:
+{
+  "passage_id": "ID for passage", 
+  "answer": "Benedict", 
+  "question": "which pope has the middle name gregory",
+  "metadata": {"filter_answer": "benedict", "consistent": true, "answer_start": 617, "answer_end": 625, "ae_score": "score for answer", "qg_score": "currently not implemented, but score for question can go here"}
+}
 
 
