@@ -20,12 +20,13 @@ Besides the filtering module in PQA which filters the generated questions for an
   | Ground truth + Generated QA (filtered by Consistent=True) | 4,441 generated QA & 112 ground truth QA pairs | baseline | F1 = 64.86, EM = 52.01
   | Ground truth + Generated QA (unfiltered) | 12,097 generated QA & 112 ground truth QA pairs | fine-tune with SQuAD 1.1 | F1 = 57.55, EM = 38.57
   | Ground truth + Generated QA (filtered by Consistent=True) | 4,441 generated QA & 112 ground truth QA pairs | fine-tune with SQuAD 1.1 | F1 = 81.13, EM = 66.70
-Note: Consistent=True is filtered by PAQ module 3. Filtering Generated QA-pairs. 
+
+_Note: Consistent=True is filtered by PAQ Filtering Generated QA-pairs module._ 
   
-Fine-tuning on fitness nutrition data with SQuAD pretrained model/weights significantly improves the model performance. Therefore, I use distilbert-base-uncased-distilled-squad pretrained results to compute the F1 score against all PAQ generated questions as the filtering metric. The F1 filtering thresholds are 1.0, 0.8, 0.6, 0.4. Ground truth pairs are considered as F1 = 1.0.
+Fine-tuning on fitness nutrition data with SQuAD pretrained model/weights significantly improves the model performance. Therefore, I use distilbert-base-uncased-distilled-squad pretrained results to compute the F1 score against all PAQ generated questions as the filtering metric. The F1 filtering thresholds are 1.0, 0.8, 0.6, 0.4. Ground truth pairs are considered with F1 = 1.0.
 
   | Dataset for Training | N size | Performance (F1 & EM)
-  | --------------- | --------------- | --------------- | --------------- 
+  | --------------- | --------------- | --------------- 
   | **Ground truth + Generated QA (filtered by F1=1.0)** | 4,127 generated QA & 112 ground truth QA pairs | **F1 = 71.40, EM = 61.67** 
   | **Ground truth + Generated QA (filtered by F1=0.8)** | 4,943 generated QA & 112 ground truth QA pairs | **F1 = 71.16, EM = 54.83**
   | Ground truth + Generated QA (filtered by F1=0.6) | 6,256 generated QA & 112 ground truth QA pairs | F1 = 69.55, EM = 49.61
@@ -142,11 +143,12 @@ python -m paq.generation.filtering.filter_questions \
     --verbose
 ```    
 The output is a jsonl file with the following format:
+```
 {
   "passage_id": "ID for passage", 
   "answer": "Benedict", 
   "question": "which pope has the middle name gregory",
   "metadata": {"filter_answer": "benedict", "consistent": true, "answer_start": 617, "answer_end": 625, "ae_score": "score for answer", "qg_score": "currently not implemented, but score for question can go here"}
 }
-
+```
 
