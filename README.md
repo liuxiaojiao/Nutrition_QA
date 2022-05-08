@@ -4,7 +4,41 @@ The goal of this project is to generate a Question-Answering (QA) system in Fitn
 
 As a certified Specialist of Fitness Nutrition and a Personal Trainer at ISSA (International Sports Sciences Association), I was trained with two well-designed courses in the aspects of nutrition and exercise. The context of this project was scraped from the Fitness Nutrition textbook of the certification program: ISSA-Fitness-Nutrition-Certification-Main-Course-Textbook. 
 
-Unfortunately, according to ISSA IP policy, the contents in any textbook are not released to the public. If you request a sample data, you may contact representatives on [ISSA website](https://www.issaonline.com/).
+Here are examples of QA dialogue in terms of basic fitenss nutrition knowledge:
+"question": "what was the most important correlate of heart disease?"
+"answers": "amount of trans fats in the diet"
+
+"question": "where can i track my food intake?"
+"answers": "The Superfoods Checklist"
+
+"question": "where does the majority of dietary protein go after absorption?"
+"answers": "liver"
+
+"question": "What food are considered complete proteins?"
+"answers": "Animal sources of protein such as meat, poultry, eggs, fish, milk, and cheese"
+
+"question": "What food contains incomplete proteins?"
+"answers": "most plant foods"
+
+"question": "What foods have a low calorie density?", 
+"answers": "a) fresh veg- etables, b) broth based soups, c) fresh fruits, and d) chicken breast"
+
+"question": "What foods have a high calorie density? "
+"answers": "a) cookies, b) crackers, c) butter, and bacon"
+
+"question": "what type of cancer is prevented by dietary fiber?"
+"answers": "colon cancer"
+
+"question": "what options do you offer your clients when dining at a friend's house?" 
+"answers": "to bring food that fits into their meal plan"
+
+"question": "what is the benefit of vitamin k in infants?"
+"answers": "Preventing excessive bleeding"
+
+"question": "how much fish oil should you supplement with per day?"
+"answers": "3-9 grams"
+
+Unfortunately, according to ISSA IP policy, the details of contents in textbook especially related to coaching are not released to the public. If you request a sample data, you may contact representatives on [ISSA website](https://www.issaonline.com/).
 
 ## Highlights of Research Methodology
 This Nutrition Question-Answering System takes advantages of pretrained transformers which show State-of-the-Art performance in NLP tasks recently. The research starts from training a baseline model using distilbert-base-uncased, and then fine-tunes on SQuAD pretrained distilbert model. 
