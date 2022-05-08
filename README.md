@@ -2,41 +2,43 @@
 
 The goal of this project is to generate a Question-Answering (QA) system in Fitness Nutrition.
 
-As a certified Specialist of Fitness Nutrition and a Personal Trainer at ISSA (International Sports Sciences Association), I was trained with two well-designed courses in the aspects of nutrition and exercise. The context of this project was scraped from the Fitness Nutrition textbook of the certification program: ISSA-Fitness-Nutrition-Certification-Main-Course-Textbook. 
+As a certified Specialist of Fitness Nutrition and a Personal Trainer at ISSA (International Sports Sciences Association), I was trained with two well-designed courses in the aspects of nutrition and exercise. The context of this project was scraped from the Fitness Nutrition textbook of the certification program: *ISSA-Fitness-Nutrition-Certification-Main-Course-Textbook*. 
 
 Here are examples of QA dialogue in terms of basic fitenss nutrition knowledge:
-"question": "what was the most important correlate of heart disease?"
-"answers": "amount of trans fats in the diet"
+```
+question: "what was the most important correlate of heart disease?"
+answer: "amount of trans fats in the diet"
 
-"question": "where can i track my food intake?"
-"answers": "The Superfoods Checklist"
+question: "where can i track my food intake?"
+answer: "The Superfoods Checklist"
 
-"question": "where does the majority of dietary protein go after absorption?"
-"answers": "liver"
+question: "where does the majority of dietary protein go after absorption?"
+answer: "liver"
 
-"question": "What food are considered complete proteins?"
-"answers": "Animal sources of protein such as meat, poultry, eggs, fish, milk, and cheese"
+question: "What food are considered complete proteins?"
+answer: "Animal sources of protein such as meat, poultry, eggs, fish, milk, and cheese"
 
-"question": "What food contains incomplete proteins?"
-"answers": "most plant foods"
+question: "What food contains incomplete proteins?"
+answer: "most plant foods"
 
-"question": "What foods have a low calorie density?", 
-"answers": "a) fresh veg- etables, b) broth based soups, c) fresh fruits, and d) chicken breast"
+question: "What foods have a low calorie density?", 
+answer: "a) fresh veg- etables, b) broth based soups, c) fresh fruits, and d) chicken breast"
 
-"question": "What foods have a high calorie density? "
-"answers": "a) cookies, b) crackers, c) butter, and bacon"
+question: "What foods have a high calorie density? "
+answer: "a) cookies, b) crackers, c) butter, and bacon"
 
-"question": "what type of cancer is prevented by dietary fiber?"
-"answers": "colon cancer"
+question: "what type of cancer is prevented by dietary fiber?"
+answer: "colon cancer"
 
-"question": "what options do you offer your clients when dining at a friend's house?" 
-"answers": "to bring food that fits into their meal plan"
+question: "what options do you offer your clients when dining at a friend's house?" 
+answer: "to bring food that fits into their meal plan"
 
-"question": "what is the benefit of vitamin k in infants?"
-"answers": "Preventing excessive bleeding"
+question: "what is the benefit of vitamin k in infants?"
+answer: "Preventing excessive bleeding"
 
-"question": "how much fish oil should you supplement with per day?"
-"answers": "3-9 grams"
+question": "how much fish oil should you supplement with per day?"
+answer: "3-9 grams"
+```
 
 Unfortunately, according to ISSA IP policy, the details of contents in textbook especially related to coaching are not released to the public. If you request a sample data, you may contact representatives on [ISSA website](https://www.issaonline.com/).
 
